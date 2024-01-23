@@ -9,7 +9,7 @@
 #include <vector>
 #include <memory> 
 
-#define CERF_AS_CPP
+//#define CERF_AS_CPP
 #include "h5reader.hpp"
 
 

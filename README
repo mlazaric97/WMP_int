@@ -1,0 +1,10 @@
+Implementation of Windowed mulitpole into c++ with interfaces for C/F90
+
+This is written to interface with MCNP 6.3 
+
+to compile 
+
+mkdir build && cd build
+cmake .. 
+make 
+
