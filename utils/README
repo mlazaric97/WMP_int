@@ -1,0 +1,5 @@
+here is where the executables are built and the main.cpp's are stored. 
+
+if we are just using the WMP lib and not making an executable util will not be loaded
+because of the if (NOT SUBPROJECT) statement in the base CMakeLists.txt 
+

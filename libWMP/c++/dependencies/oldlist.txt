@@ -1,0 +1,9 @@
+find_package(HDF5 REQUIRED COMPONENTS CXX)
+target_link_libraries(WMP_CXX
+	${HDF5_LIBRARIES}
+	${HDF5_CXX_LIBRARIES}
+	)
+
+
+target_include_directories(WMP_CXX 
+	PRIVATE ${HDF5_INCLUDE_DIRS})
