@@ -114,14 +114,57 @@ module neutron_mod
                 end function 
 
 
+contains
+                subroutine neutron_create(self,filename)
+                        class(neutron_t), intent(inout) :: self
+                        character(len=*), intent(in) :: filename
+                        call self%delete()
+                        call neutron__new(self%this,filename//c_null_char)
+                end subroutine neutron_create
 
+                function neutron_bp(self) result(bpval)
+                        class(neutron_t), intent(inout) :: self
+                        integer(c_int), intent(out) :: bpval
 
-! functions left to define
-! int* Neutron__grab_windows_c(Neutron *&This, int w_id)
-! Neutron__xs_c
+                        call neutron__get_bp(self%this)
+                
+                end subroutine neutron_bp 
 
+                function neutron_order(self) result(ord)
+                        class(neutron_t), intent(inout) :: self
+                        integer(c_int), intent(out) :: ord
 
+                        call neutron__get_order(self%this)
+                end function neutron_order
 
+                function neutron_fis(self) result(fis)
+                        class(neutron_t), intent(inout) :: self 
+                        integer(c_int), intent(out) :: fis
+
+                        call neutron__get_fis(self%this)
+
+                end function neutron_fis
+        
+                function neutron_Emax result(emax)
+                        class(neutron_t), intent(inout) :: self
+                        real(c_double), intent(out) :: emax 
+
+                        call neutron__get_E_max(self%this)
+                end function neutron_Emax
+
+                function neutron_Emin result(emin)
+                        class(neutron_t), intent(inout) :: self 
+                        real(c_double), intent(out) :: emin
+
+                        call neutron__get_E_min(self%this)
+
+                end function neutron_Emin
+
+                function neutron_spacing result(spacing)
+                       class(neutron_t), intent(inout) :: self 
+                       real(c_double), intent(out) :: spacing
+
+                      call neutron__get_spacing(self%this) 
 
 
 
