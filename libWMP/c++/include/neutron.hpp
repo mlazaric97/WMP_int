@@ -44,11 +44,11 @@ class Neutron {
 	double grab_curvefit(int window_id, int order, int rxn);
 	std::complex<double> grab_data(int window_id, int rxn);
 	int*   grab_windows(int window_id); // goal for this one is to call a window and a size 2 array of ints
-	int    grab_broaden_poly(int window_id);
-	int    grab_order();
-	int    grab_fissionable(); 
-	double grab_E_min(); 
-	double grab_E_max(); 
+	int    grab_broaden_poly(int window_id); // implemented
+	int    grab_order(); // implemented
+	int    grab_fissionable(); //  
+	double grab_E_min(); // 
+	double grab_E_max(); //
 	double grab_spacing(); 
 
 	// Current ctor takes the filename as a string, 
