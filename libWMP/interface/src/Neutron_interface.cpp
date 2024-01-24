@@ -64,6 +64,10 @@ extern "C" {
 
 	}
 */
+	void Neutron__delete_c(Neutron *&This)
+	{
+		delete This;
+	}
 }
 
 /* reference example
