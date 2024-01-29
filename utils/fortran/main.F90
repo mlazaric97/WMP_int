@@ -1,11 +1,12 @@
 program main
         use WMP_mod, only: helloworld, wmp_read
         use neutron_mod, only: neutron_t
-
         use iso_c_binding
-        
+   
+        implicit none
         !character(80) :: s
-        character(kind=c_char,len=*) :: s
+        character(kind=c_char,len=72) :: s
+
         type(neutron_t) :: nn
 
 
