@@ -10,6 +10,8 @@
 // 	- calculate sensitivities to Real(pole_j) Imag(pole_j) |r_j|, 
 // 	- Re(r_j), Im(r_j), a_c, 
 #include "WMP.hpp"
+#include "h5reader.hpp"
+
 class Neutron { 
 	private: 
 	std::vector<std::vector<std::vector<double>>> curvefit;
