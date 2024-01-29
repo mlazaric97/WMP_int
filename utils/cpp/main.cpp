@@ -15,7 +15,8 @@ int main()
 {
 
 	wmp_read("compiles");
+	H5::H5File file = openhdf(FILE_NAME);
 
-
+	Neutron nn(FILE_NAME); 
 	return 0; 
 }

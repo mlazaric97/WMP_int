@@ -24,7 +24,7 @@ module neutron_mod
                         use, intrinsic :: iso_c_binding, only : c_ptr, c_char
                         implicit none
                         type(c_ptr), intent(inout) :: this
-                        character(kind=c_char), dimension(*) :: a
+                        character(kind=c_char,len=*), intent(in) :: a
                 end subroutine 
         
                 function neutron__get_bp(this) bind(c, &
