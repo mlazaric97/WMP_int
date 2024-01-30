@@ -18,7 +18,7 @@
 
 
 void helloworld();
-void wmp_read(char* filename); 
+void wmp_read(std::string filename); 
 
 
 #endif //__WMP_HPP__

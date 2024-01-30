@@ -6,7 +6,7 @@ void helloworld()
 	std::cout << "Hello World" << std::endl; 
 }
 
-void wmp_read(char* filename)
+void wmp_read(std::string filename)
 {
 
 	std::cout << filename << std::endl; 

@@ -4,19 +4,14 @@ program main
         use iso_c_binding
    
         implicit none
-        !character(80) :: s
-        !character(kind=c_char,len=72) :: s
-!        character(*) :: s
-        character(kind=c_char) :: s*90
 
-        type(neutron_t) :: nn
-
-
+        character(80) :: filename
+       
+        filename = "092238.h5"
         print *, "Fortran implementation of WMP" 
-        s = "092238.h5"
-        call wmp_read(s)
+        call wmp_read(filename)
 
-        call nn%create(s)
+!        call nn%create(filename)
 
 
 

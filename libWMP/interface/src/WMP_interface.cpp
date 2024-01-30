@@ -5,7 +5,7 @@ extern "C" {
 		helloworld();
 	}
 
-	void wmp_read_c(char *filename) { 
+	void wmp_read_c(std::string filename) { 
 		wmp_read(filename);
 	}	
 }

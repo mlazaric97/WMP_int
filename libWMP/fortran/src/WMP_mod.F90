@@ -14,7 +14,7 @@ module WMP_mod
                         use, intrinsic :: iso_c_binding, only : c_char
                         implicit none
 !                        character(kind=c_char,len=80), intent(in), value :: str
-                        character(kind=c_char), dimension(*) :: str
+                        character(kind=c_char, len=*) :: str
                 end subroutine wmp_read_f
 
 
@@ -32,7 +32,7 @@ module WMP_mod
                 
                 subroutine wmp_read(str)
                         use iso_c_binding, only: c_char, c_null_char
-                        character(len=*), intent(in) :: str
+                        character(kind=c_char,len=*), intent(in) :: str
 
                         call wmp_read_f(str//c_null_char)   
                 end subroutine wmp_read
