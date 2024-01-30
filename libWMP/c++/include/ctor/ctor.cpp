@@ -1,5 +1,5 @@
 
-Neutron(char* filename, int verbose = 0)
+Neutron(std::string filename, int verbose = 0)
 {
 	// open file
 	H5::H5File file = openhdf(filename);	

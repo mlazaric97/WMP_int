@@ -5,13 +5,16 @@ program main
    
         implicit none
 
-        character(80) :: filename
-       
-        filename = "092238.h5"
-        print *, "Fortran implementation of WMP" 
-        call wmp_read(filename)
+        character(kind=c_char) :: filnam*9
+        type(neutron_t) :: nn
+        !real(kind=c_double) :: T
 
-!        call nn%create(filename)
+
+        filnam = "092238.h5"
+        print *, "Fortran implementation of WMP" 
+        call wmp_read(filnam)
+
+        call nn%create(filnam)
 
 
 

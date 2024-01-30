@@ -1,7 +1,7 @@
 #include "neutron.hpp"
 
 extern "C" { 
-	void Neutron__new_c(Neutron *&This, char* filename) { 
+	void Neutron__new_c(Neutron *&This, std::string filename) { 
 		This = new Neutron(filename); 
 	}
 

@@ -127,7 +127,7 @@ module neutron_mod
                
                 subroutine neutron_create(self,filename)
                         class(neutron_t), intent(inout) :: self
-                        character(len=72), intent(in) :: filename
+                        character(kind=c_char,len=*), intent(in) :: filename
                         call self%delete()
                         call neutron__new(self%this,filename//c_null_char)
                 end subroutine neutron_create

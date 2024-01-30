@@ -14,7 +14,7 @@ typedef struct comp_type {
 
 // A lot of this code is taken from the hdf5 C++ example "readdata.cpp"
 // opens and returns a pointer to and hdf5 file denoted by FILENAME; 
-H5::H5File openhdf(char* FILENAME)
+H5::H5File openhdf(std::string FILENAME)
 {	
 
 	std::string filename = FILENAME; 
@@ -25,7 +25,7 @@ H5::H5File openhdf(char* FILENAME)
 	try { 
 		f = H5::H5File(filename.c_str(),H5F_ACC_RDONLY);
 	} catch( const H5::FileIException& error) {	
-		std::cout << "ERROR OPENING DATAFILE: " << *FILENAME << std::endl;
+		std::cout << "ERROR OPENING DATAFILE: " << filename << std::endl;
 		error.printErrorStack(); 
 		std::abort(); 
 	}
