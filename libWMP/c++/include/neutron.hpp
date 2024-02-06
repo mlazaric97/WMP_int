@@ -59,7 +59,7 @@ class Neutron {
 	#include "ctor/ctor.cpp"
 	// data setup as in WMP_library for convenience
 	// data[i][0] is a pole data[i][1:] are the partial residues
-	double* xs(double energy, double temp); // returns pointer to double array of xs at given E and T
+	double* xs(double* energy, double* temp); // returns pointer to double array of xs at given E and T
 						// might make it private then only access it through WMP 
 
 	// not working right now due to compatibility issues 
@@ -128,8 +128,10 @@ double Neutron::grab_spacing()
 // end grab_xxx definitions; 
 
 
-double* Neutron::xs(double E, double temp) 
+double* Neutron::xs(double* energy, double* temperature) 
 {
+	double E = *energy; 
+	double temp = *temperature;
 	std::cout << "E = " << E << std::endl; 
 	std::cout << "Temp = " << temp << std::endl; 
 	
@@ -171,7 +173,7 @@ double* Neutron::xs(double E, double temp)
 	st = ss + sa + sf;
 //	std::vector<double> sigmas{st,sa,sf}; 
 //	static double sigmas[3]{st,sa,sf};
-	double sigmas[3]{st,sa,sf};
+	static	double sigmas[3]{st,sa,sf};
 	return sigmas; 
 }
 

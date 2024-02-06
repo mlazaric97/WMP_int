@@ -27,5 +27,11 @@ int main()
 
 	std::cout << "j = " << *j << std::endl; 
 	std::cout << "order = " << nn.grab_order() << std::endl; 	
+	double E{25.0};
+	double T{0.};
+
+	std::cout << *nn.xs(&E,&T) << std::endl;  
+
+
 	return 0; 
 }

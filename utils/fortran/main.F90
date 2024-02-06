@@ -19,7 +19,8 @@ program main
         complex(c_double_complex) :: dat
         integer(c_int) :: win
 
-        real(c_double), dimension(3) :: xss
+        real(c_double), dimension(3) :: xsp
+        real(c_double), pointer :: xss
         
         
         print *, "Fortran implementation of WMP" 
@@ -88,12 +89,11 @@ program main
 
 
         print *, "FORTRAN XS CALL"
-
-        xss = nn%xs(energy,temperature)
-        print *, xss(1)
-        print *, xss(2)
-        print *, xss(3)
-
+        energy = 25.
+        temperature = 0
+        xsp = nn%xs(energy,temperature)
+        !call c_f_pointer(xsp,xss)
+        print *, xsp        
 
 end program main
 

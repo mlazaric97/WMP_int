@@ -54,7 +54,7 @@ extern "C" {
 		return This->grab_spacing();
 	}
 
-	double* Neutron__xs_c(Neutron *&This,double E, double Temp)
+	double* Neutron__xs_c(Neutron *&This,double* E, double* Temp)
 	{
 		return This->xs(E,Temp); 
 	}
