@@ -13,7 +13,7 @@ Neutron(std::string filename, int verbose = 0)
 	// Could combine these all into one function "get_h5" not neccesary as of yet	
 	this->broaden_poly = get_bp(isogroup);
 	this->curvefit = get_curvefit(isogroup); 
-	this->order = curvefit[0].size();
+	this->order = curvefit[0].size() - 1; // changed the constructor to match the WMPedit.py 
 	
 	
 

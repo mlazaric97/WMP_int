@@ -12,6 +12,7 @@ module neutron_mod
                 procedure, public :: E_min => neutron_Emin
                 procedure, public :: E_max => neutron_Emax
                 procedure, public :: spacing => neutron_spacing
+                procedure, public :: pdata => neutron_data ! pole data = pdata
                 procedure, public :: getcf => neutron_cf
                 procedure, public :: window => neutron_wind
                 procedure, public :: xs => neutron_xs  
@@ -27,12 +28,13 @@ module neutron_mod
                         character(kind=c_char,len=*), intent(in) :: a
                 end subroutine 
         
-                function neutron__get_bp(this) bind(c, &
+                function neutron__get_bp(this, id) bind(c, &
                                 name="Neutron__grab_broaden_poly_c") result(bpval)
                         use, intrinsic :: iso_c_binding, only : c_ptr, c_int
                         implicit none 
                         type(c_ptr), intent(inout) :: this 
-                        integer(c_int) :: bpval
+                        integer(c_int), intent(in) :: id 
+                        integer(c_int), pointer :: bpval
                 end function 
 
                 function neutron__get_order(this) bind(c, &
@@ -83,7 +85,7 @@ module neutron_mod
                         integer(c_int), intent(in) :: wid ! stands for window_id \eps [0,N_windows)
                         integer(c_int), intent(in) :: o ! order 
                         integer(c_int), intent(in) :: rxn ! reaction id
-                        real(kind=c_double) :: cf
+                        real(kind=c_double), pointer :: cf
                 end function 
 
                 function neutron__get_data(this, wid, rxn) bind(c, &
@@ -93,15 +95,15 @@ module neutron_mod
                         type(c_ptr), intent(inout) :: this
                         integer(c_int), intent(in) :: wid
                         integer(c_int), intent(in) :: rxn
-                        complex(kind=c_double_complex) :: datum
+                        complex(kind=c_double_complex), pointer :: datum
                 end function 
 
-                function neutron__get_windows(this,wid) bind(c, &
+                function neutron__get_windows(this,wid, secid) bind(c, &
                                 name="Neutron__grab_windows_c") result(pti) !Pointer To Int
                         use, intrinsic :: iso_c_binding, only : c_ptr, c_int
                         implicit none
                         type(c_ptr), intent(inout) :: this       
-                        integer(c_int), intent(in) :: wid
+                        integer(c_int), intent(in) :: wid, secid
                         integer(c_int), pointer :: pti
                 end function 
 
@@ -132,12 +134,13 @@ module neutron_mod
                         call neutron__new(self%this,filename//c_null_char)
                 end subroutine neutron_create
 
-                function neutron_bp(self) result(bpval)
+                function neutron_bp(self, id) result(bpval)
                         class(neutron_t), intent(inout) :: self
+                        integer(c_int), intent(in) ::  id
                         integer(c_int) :: bpval
-
-                        bpval = neutron__get_bp(self%this)
-                
+                        print *, id
+                        print *, "in 'neutron_bp'"
+                        bpval = neutron__get_bp(self%this, id)                
                 end function neutron_bp 
 
                 function neutron_order(self) result(ord)
@@ -188,21 +191,28 @@ module neutron_mod
                         a_j = neutron__get_cf(self%this, wid, j, rxn)
                 end function neutron_cf
 
+                function neutron_data(self, wid, rxn) result(datum)
+                        class(neutron_t), intent(inout) :: self
+                        integer(c_int), intent(in) :: wid, rxn
+                        complex(c_double_complex) :: datum
+                        datum = neutron__get_data(self%this, wid, rxn)
+                end function neutron_data
+
                 function neutron_xs(self,E,T) result(xs)
                         class(neutron_t), intent(inout) :: self 
                         real(c_double), intent(in) :: E
                         real(c_double), intent(in) :: T
-                        real(c_double), pointer :: xs 
+                        real(c_double), dimension(3) :: xs
 
                         xs = neutron__get_xs(self%this, E,T)
                 end function neutron_xs
 
-                function neutron_wind(self,w_id) result(ind)
+                function neutron_wind(self,w_id,secid) result(ind)
                         class(neutron_t), intent(inout) :: self
-                        integer(c_int), intent(in) :: w_id
-                        integer(c_int), pointer :: ind
+                        integer(c_int), intent(in) :: w_id, secid
+                        integer(c_int) :: ind
 
-                        ind = neutron__get_windows(self%this,w_id)
+                        ind = neutron__get_windows(self%this,w_id,secid)
                 end function neutron_wind
 
                 subroutine neutron_delete(self)

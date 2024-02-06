@@ -5,24 +5,27 @@ extern "C" {
 		This = new Neutron(filename); 
 	}
 
-	double Neutron__grab_curvefit_c(Neutron *&This, int w_id, int order, int rxn)
+	double* Neutron__grab_curvefit_c(Neutron *&This, int* w_id, int* order, int* rxn)
 	{
+		std::cout << "[wid, order, rxn] = [" << *w_id << "," << *order << "," << *rxn << "]" << std::endl; 
+
 		return This->grab_curvefit(w_id,order,rxn); 
 	}
 	
-	std::complex<double> Neutron__grab_data_c(Neutron *&This, int w_id, int rxn) 
+	std::complex<double>* Neutron__grab_data_c(Neutron *&This, int* w_id, int* rxn) 
 	{
 		return This->grab_data(w_id,rxn);
 	}
 	
-	int* Neutron__grab_windows_c(Neutron *&This, int w_id)
+	int* Neutron__grab_windows_c(Neutron *&This, int* w_id,int* sec_id)
 	{
-		int a[2]{*(This->grab_windows(w_id))}; 
-		return a; 
+		return This->grab_windows(w_id,sec_id); 
 	}
 
-	int Neutron__grab_broaden_poly_c(Neutron *&This, int w_id)
+	int* Neutron__grab_broaden_poly_c(Neutron *&This, int* w_id)
 	{
+//		std::cout << "here" << std::endl; 
+//		std::cout << w_id << std::endl; 
 		return This->grab_broaden_poly(w_id);
 	}
 

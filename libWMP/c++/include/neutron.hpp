@@ -43,10 +43,10 @@ class Neutron {
 	public:
 	
 	// accessor functions
-	double grab_curvefit(int window_id, int order, int rxn);
-	std::complex<double> grab_data(int window_id, int rxn);
-	int*   grab_windows(int window_id); // goal for this one is to call a window and a size 2 array of ints
-	int    grab_broaden_poly(int window_id); // implemented
+	double* grab_curvefit(int* window_id, int* order, int* rxn);
+	std::complex<double>* grab_data(int* window_id, int* rxn);
+	int*   grab_windows(int* window_id, int* sec_id); // goal for this one is to call a window and a size 2 array of ints
+	int*   grab_broaden_poly(int* window_id); // implemented
 	int    grab_order(); // implemented
 	int    grab_fissionable(); //  
 	double grab_E_min(); // 
@@ -77,28 +77,27 @@ class Neutron {
 // grab_xxx defintions
 // 
 
-double Neutron::grab_curvefit(int window_id, int order, int rxn)
+double* Neutron::grab_curvefit(int *window_id, int *order, int *rxn)
 {
-	return this->curvefit[window_id][order][rxn]; 
+	return &(this->curvefit[*window_id][*order][*rxn]); 
 }
 
-std::complex<double> Neutron::grab_data(int window_id, int rxn) 
+std::complex<double>* Neutron::grab_data(int* window_id, int* rxn) 
 {
-	return this->data[window_id][rxn];
+	return &(this->data[*window_id][*rxn]);
 }
 
-int*   Neutron::grab_windows(int window_id)
+int*   Neutron::grab_windows(int* window_id, int* sec_id)
+{	
+	return &(this->windows[*window_id][*sec_id]); 
+}
+
+int*    Neutron::grab_broaden_poly(int* window_id)
 {
-	static int winds[2]; 
+	//std::cout << "here 2" << std::endl; 
+//	std::cout << window_id << std::endl; 
 	
-	winds[0] = windows[window_id][0]; 
-	winds[1] = windows[window_id][1]; 	
-	return winds; 
-}
-
-int    Neutron::grab_broaden_poly(int window_id)
-{
-	return this->broaden_poly[window_id];
+	return &(this->broaden_poly[*window_id]);
 }
 
 int    Neutron::grab_order()
@@ -131,6 +130,9 @@ double Neutron::grab_spacing()
 
 double* Neutron::xs(double E, double temp) 
 {
+	std::cout << "E = " << E << std::endl; 
+	std::cout << "Temp = " << temp << std::endl; 
+	
 	double ss{},sa{},sf{},st{}; // intializing cross sections to zero, sa = sigma absorption
 	double sqrtE = sqrt(E); 
 	int window_i = floor((sqrtE - sqrt(E_min))/spacing);
@@ -168,7 +170,8 @@ double* Neutron::xs(double E, double temp)
 	
 	st = ss + sa + sf;
 //	std::vector<double> sigmas{st,sa,sf}; 
-	static double sigmas[3]{st,sa,sf};
+//	static double sigmas[3]{st,sa,sf};
+	double sigmas[3]{st,sa,sf};
 	return sigmas; 
 }
 

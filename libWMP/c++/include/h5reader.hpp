@@ -368,7 +368,7 @@ std::vector<std::vector<int>> get_windows(H5::Group &iso_group)
 		error.printErrorStack();
 		std::abort();
 	}
-	std::vector<std::vector<int>> windows(Nx, (std::vector<int>(2))); 
+	std::vector<std::vector<int>> windows(Nx, (std::vector<int> (2,0))); 
 	for (int i{}; i < Nx; ++i)
 	{	
 		windows[i][0] = buf[i][0]; 

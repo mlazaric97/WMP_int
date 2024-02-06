@@ -19,5 +19,13 @@ int main()
 	H5::H5File file = openhdf(filename);
 
 	Neutron nn(filename); 
+
+	int i{1}; 
+
+	int* j; 
+	j = nn.grab_broaden_poly(&i); 
+
+	std::cout << "j = " << *j << std::endl; 
+	std::cout << "order = " << nn.grab_order() << std::endl; 	
 	return 0; 
 }
