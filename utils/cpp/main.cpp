@@ -30,7 +30,7 @@ int main()
 	double E{25.0};
 	double T{0.};
 
-	std::cout << *nn.xs(&E,&T) << std::endl;  
+	std::cout << nn.xs(&E,&T)[0] << " " << nn.xs(&E,&T)[1] << std::endl;  
 
 
 	return 0; 

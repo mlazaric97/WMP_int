@@ -169,7 +169,7 @@ double* Neutron::xs(double* energy, double* temperature)
 		std::cout << "ERROR: DOPPLER BROADENED CROSS SECTIONS ARE A WORK IN PROGRESS\n SET TEMPERATURES TO 0K AND TRY AGAIN" << std::endl;
 	}
 
-	
+	std::cout << "sa = " << sa << "\n ss = " << ss << "\n sf = " << sf << std::endl;	
 	st = ss + sa + sf;
 //	std::vector<double> sigmas{st,sa,sf}; 
 //	static double sigmas[3]{st,sa,sf};

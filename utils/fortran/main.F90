@@ -93,7 +93,7 @@ program main
         temperature = 0
         xsp = nn%xs(energy,temperature)
         !call c_f_pointer(xsp,xss)
-        print *, xsp        
-
+        print *, xsp(1)        
+        print *, xsp(2)
 end program main
 
