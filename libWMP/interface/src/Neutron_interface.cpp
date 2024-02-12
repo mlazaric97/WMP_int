@@ -53,20 +53,20 @@ extern "C" {
 	{
 		return This->grab_spacing();
 	}
-
-	double* Neutron__xs_c(Neutron *&This,double* E, double* Temp)
-	{
-		return This->xs(E,Temp); 
-	}
-
-/*
+	
+	void Neutron__xs_c(Neutron *&This, double &e, double &temp, std::array<double,3> &ara)
+       	{
+	       	ara = (This->xs(e,temp));
+	} 
+	
+	/*
 	double** Neutron__WMP_c(Neutron *&This, double* E, double Temp)
 	{
 
 		return This->WMP(E,Temp); 
 
 	}
-*/
+	*/
 	void Neutron__delete_c(Neutron *&This)
 	{
 		delete This;

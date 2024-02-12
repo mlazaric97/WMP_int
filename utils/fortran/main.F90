@@ -91,9 +91,12 @@ program main
         print *, "FORTRAN XS CALL"
         energy = 25.
         temperature = 0
-        xsp = nn%xs(energy,temperature)
+        call nn%xs(energy,temperature,xsp)
+
+        print *, "FORTRAN PRINTING C++ ARRAY" 
         !call c_f_pointer(xsp,xss)
         print *, xsp(1)        
         print *, xsp(2)
+        print *, xsp(3)
 end program main
 

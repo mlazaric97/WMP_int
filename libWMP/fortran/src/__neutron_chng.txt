@@ -107,14 +107,14 @@ module neutron_mod
                         integer(c_int), pointer :: pti
                 end function 
 
-                subroutine neutron__get_xs(this,E,T,xs) bind(c, &
+                subroutine neutron__get_xs(this,E,T,ara) bind(c, &
                                 name="Neutron__xs_c") 
                         use, intrinsic :: iso_c_binding, only : c_ptr, c_double
                         implicit none
                         type(c_ptr), intent(inout) :: this
                         real(kind=c_double), intent(in) :: E
                         real(kind=c_double), intent(in) :: T
-                        real(kind=c_double), dimension(3), intent(inout) :: xs
+                        real(kind=c_double), dimension(3), intent(in) :: ara
                  
                 end subroutine 
 
@@ -198,13 +198,13 @@ module neutron_mod
                         datum = neutron__get_data(self%this, wid, rxn)
                 end function neutron_data
 
-                subroutine neutron_xs(self,E,T,xs)
+                subroutine neutron_xs(self,E,T,ara)
                         class(neutron_t), intent(inout) :: self 
                         real(c_double), intent(in) :: E
                         real(c_double), intent(in) :: T
-                        real(c_double), intent(inout), dimension(3) :: xs
+                        real(c_double), dimension(3), intent(inout) :: ara
 
-                        call neutron__get_xs(self%this, E,T,xs)
+                        call neutron__get_xs(self%this, E,T,ara)
                 end subroutine neutron_xs
 
                 function neutron_wind(self,w_id,secid) result(ind)
