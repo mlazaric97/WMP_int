@@ -27,7 +27,7 @@ program main
         
         print *, "FORTRAN CREATE NEUTRON CALL" 
         
-        filnam = "092238.h5"
+        filnam = "006000.h5"
         call nn%create(filnam)
         print *, "FORTRAN BROADENPOLY CALL"
         
@@ -89,13 +89,13 @@ program main
 
 
         print *, "FORTRAN XS CALL"
-        energy = 25.
+        energy = 4.3676939
         temperature = 0
         call nn%xs(energy,temperature,xsp)
 
         print *, "FORTRAN PRINTING C++ ARRAY" 
         !call c_f_pointer(xsp,xss)
-        print *, xsp(1)        
+        print *, xsp(0)        
         print *, xsp(2)
         print *, xsp(3)
 end program main

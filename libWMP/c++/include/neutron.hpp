@@ -151,22 +151,25 @@ std::array<double,3> Neutron::xs(double &energy, double &temperature)
 		{
 			ss += curvefit[window_i][j][0]*pwr; 
 			sa += curvefit[window_i][j][1]*pwr; 
-			if (fissionable) 
+			if (fissionable){ 
 				sf += curvefit[window_i][j][2]*pwr; 
-		
+			}
 			pwr *= sqrtE; 
 		}
 		for (int i = startw; i < endw; ++i)
 		{
 			std::complex<double> j(0,-1); 
 			std::complex<double> temp,common; 
-			temp = (sqrtE - data[i][0]);
+			temp = -(sqrtE - data[i][0]);
 			common = j/temp/E; 
 			ss += (data[i][1]*common).real(); 
 			sa += (data[i][2]*common).real();
+			if (fissionable) {
+				sf += (data[i][3]*common).real();
+			}
 
 		}
-//		std::cout << "holomorphic piece = {" << ss << ", " << sa << ", " << sf << " }\n"; 
+		std::cout << "holomorphic piece = {" << ss << ", " << sa << ", " << sf << " }\n"; 
 	}
 	else
 	{
