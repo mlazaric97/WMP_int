@@ -6,7 +6,7 @@ else()
 	set(SUBPROJECT OFF)
 endif()
 
-project(WMP LANGUAGES CXX Fortran)
+project(WMP_int LANGUAGES CXX C Fortran)
 
 set(CMAKE_CXX_STANDARD 14)
 

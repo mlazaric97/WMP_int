@@ -130,10 +130,13 @@ double Neutron::grab_spacing()
 
 std::array<double,3> Neutron::xs(double &energy, double &temperature) 
 {
-	double E = energy; 
+	
+	double conv_fact = 1E+6; // energy is MeV from mcnp 
+	double E = energy*conv_fact; // E is in eV from here on  
+	if (E > E_max) return {0,0,0}; 
 	double temp = temperature;
 	std::cout << "E = " << E << std::endl; 
-	std::cout << "Temp = " << temp << std::endl; 
+//	std::cout << "Temp = " << temp << std::endl; 
 	
 	double ss{},sa{},sf{},st{}; // intializing cross sections to zero, sa = sigma absorption
 	double sqrtE = sqrt(E); 
@@ -163,7 +166,7 @@ std::array<double,3> Neutron::xs(double &energy, double &temperature)
 			sa += (data[i][2]*common).real();
 
 		}
-		std::cout << "holomorphic piece = {" << ss << ", " << sa << ", " << sf << " }\n"; 
+//		std::cout << "holomorphic piece = {" << ss << ", " << sa << ", " << sf << " }\n"; 
 	}
 	else
 	{
@@ -171,8 +174,10 @@ std::array<double,3> Neutron::xs(double &energy, double &temperature)
 	}
 
 	st = ss + sa + sf;
-	static std::array<double,3> sigmas{{st,sa,sf}};
-	std::cout << "c++ returning the following array to fortan\n" << st << "\n" << sa << "\n" << sf << std::endl; 
+	//static std::array<double,3> sigmas{{st,sa,sf}};
+	std::array<double,3> sigmas{{st,sa,sf}};
+
+//	std::cout << "c++ returning the following array to fortan\n" << sigmas[0] << "\n" << sigmas[1] << "\n" << sigmas[2] << std::endl; 
 	return sigmas; 
 }
 

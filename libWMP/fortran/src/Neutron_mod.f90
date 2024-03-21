@@ -203,7 +203,6 @@ module neutron_mod
                         real(c_double), intent(in) :: E
                         real(c_double), intent(in) :: T
                         real(c_double), intent(inout), dimension(3) :: xs
-
                         call neutron__get_xs(self%this, E,T,xs)
                 end subroutine neutron_xs
 

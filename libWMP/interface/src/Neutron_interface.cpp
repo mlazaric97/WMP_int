@@ -56,7 +56,12 @@ extern "C" {
 	
 	void Neutron__xs_c(Neutron *&This, double &e, double &temp, std::array<double,3> &ara)
        	{
-	       	ara = (This->xs(e,temp));
+	
+		ara = This->xs(e,temp);
+		//for (int i{}; i < 3; ++i)
+		//{
+		//	std::cout << "ara[" << i << "] = " << ara[i] << std::endl; 
+		//}
 	} 
 	
 	/*
