@@ -22,8 +22,14 @@ Neutron(std::string filename, int verbose = 0)
 	this->E_min = get_E_bounds(isogroup,"E_min");
        	this->E_max = get_E_bounds(isogroup,"E_max"); 	
 	this->data = get_data(isogroup); 
-	if (data[0].size() == 4) this->fissionable = 1; else this->fissionable = 0; 
 
+	if (this->data.size() != 0)
+	{
+		if (this->data[0].size() == 4) { this->fissionable = 1; } 
+		else {this ->fissionable = 0;}
+	}
+	else {this->fissionable = 0; } // my logic here is that if there are no poles for an isotope then it's not heavy enough to fission
+	
 	this->windows = get_windows(isogroup); 
 	this->spacing = get_spacing(isogroup); 
 	std::cout << "Finished loading in data for: '" << this->name << "'\n";	

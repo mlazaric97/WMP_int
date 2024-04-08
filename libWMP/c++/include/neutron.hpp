@@ -40,8 +40,9 @@ class Neutron {
 	// windows[i] = [j,k] where j and k represent the first and last index of the windows respectively
 
 
+	std::complex<double> cd_zero{0,0};
 	public:
-	
+
 	// accessor functions
 	double* grab_curvefit(int* window_id, int* order, int* rxn);
 	std::complex<double>* grab_data(int* window_id, int* rxn);
@@ -84,6 +85,7 @@ double* Neutron::grab_curvefit(int *window_id, int *order, int *rxn)
 
 std::complex<double>* Neutron::grab_data(int* window_id, int* rxn) 
 {
+	if (this->data.size() == 0) { return &cd_zero ;}// returning 0 for both will not add anything to pole sum when called
 	return &(this->data[*window_id][*rxn]);
 }
 
@@ -156,8 +158,11 @@ std::array<double,3> Neutron::xs(double &energy, double &temperature)
 			}
 			pwr *= sqrtE; 
 		}
+	
+		std::cout << "holomorphic piece = {" << ss << ", " << sa << ", " << sf << " }\n"; 
 		for (int i = startw; i < endw; ++i)
 		{
+			if (data.size() == 0) {break;} 
 			std::complex<double> j(0,-1); 
 			std::complex<double> temp,common; 
 			temp = -(sqrtE - data[i][0]);
@@ -169,7 +174,6 @@ std::array<double,3> Neutron::xs(double &energy, double &temperature)
 			}
 
 		}
-		std::cout << "holomorphic piece = {" << ss << ", " << sa << ", " << sf << " }\n"; 
 	}
 	else
 	{
