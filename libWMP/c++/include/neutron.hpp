@@ -137,7 +137,7 @@ std::array<double,3> Neutron::xs(double &energy, double &temperature)
 	double E = energy*conv_fact; // E is in eV from here on  
 	if (E > E_max) return {0,0,0}; 
 	double temp = temperature;
-	std::cout << "E = " << E << std::endl; 
+//	std::cout << "E = " << E << std::endl; 
 //	std::cout << "Temp = " << temp << std::endl; 
 	
 	double ss{},sa{},sf{},st{}; // intializing cross sections to zero, sa = sigma absorption
@@ -159,7 +159,7 @@ std::array<double,3> Neutron::xs(double &energy, double &temperature)
 			pwr *= sqrtE; 
 		}
 	
-		std::cout << "holomorphic piece = {" << ss << ", " << sa << ", " << sf << " }\n"; 
+//		std::cout << "holomorphic piece = {" << ss << ", " << sa << ", " << sf << " }\n"; 
 		for (int i = startw; i < endw; ++i)
 		{
 			if (data.size() == 0) {break;} 
@@ -180,9 +180,9 @@ std::array<double,3> Neutron::xs(double &energy, double &temperature)
 		std::cout << "ERROR: DOPPLER BROADENED CROSS SECTIONS ARE A WORK IN PROGRESS\n SET TEMPERATURES TO 0K AND TRY AGAIN" << std::endl;
 	}
 
-	st = ss + sa + sf;
+	st = ss + sa ;
 	//static std::array<double,3> sigmas{{st,sa,sf}};
-	std::array<double,3> sigmas{{st,sa,sf}};
+	std::array<double,3> sigmas{{st,sa-sf,sf}};
 
 //	std::cout << "c++ returning the following array to fortan\n" << sigmas[0] << "\n" << sigmas[1] << "\n" << sigmas[2] << std::endl; 
 	return sigmas; 

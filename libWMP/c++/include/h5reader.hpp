@@ -291,7 +291,6 @@ std::vector<std::vector<std::complex<double>>> get_data(const H5::Group &isogrou
 		std::abort();
 	}
 	std::cout << "Successfully opened DataSet: 'data'\n";
-
 	// getting dataspace
 	H5::DataSpace dataspace = ds.getSpace(); 
 	
@@ -312,7 +311,6 @@ std::vector<std::vector<std::complex<double>>> get_data(const H5::Group &isogrou
 	//std::cout << "[" << Nx << "," << Ny << "]\n";
 
 	comp_type data_out[Nx][Ny];
-	
 	// writes data onto 'data_out'
 	try{ 
 		ds.read(&data_out,ct);

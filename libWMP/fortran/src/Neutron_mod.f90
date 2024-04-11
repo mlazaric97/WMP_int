@@ -130,6 +130,7 @@ module neutron_mod
                 subroutine neutron_create(self,filename)
                         class(neutron_t), intent(inout) :: self
                         character(kind=c_char,len=*), intent(in) :: filename
+                        print *, "OPENING WMP DATA FILE: ", filename
                         call self%delete()
                         call neutron__new(self%this,filename//c_null_char)
                 end subroutine neutron_create
