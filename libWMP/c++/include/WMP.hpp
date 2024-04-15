@@ -1,6 +1,6 @@
 #ifndef __WMP_HPP__
 #define __WMP_HPP__
-
+#define CERF_AS_CPP
 
 
 
@@ -9,11 +9,7 @@
 #include <vector>
 #include <memory> 
 #include <array>
-
-
-
-
-//#define CERF_AS_CPP
+#include "cerf.h" 
 
 
 

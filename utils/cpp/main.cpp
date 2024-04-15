@@ -32,6 +32,11 @@ int main()
 
 	std::cout << nn.xs(E,T)[0] << " " << nn.xs(E,T)[1] << " " << nn.xs(E,T)[2] << std::endl;  
 
+	std::cout << "testing libcerf" << std::endl; 
+	std::complex<double> cmp{1,1};
+	std::cout << w_of_z(cmp) << std::endl; 
+
+
 
 	return 0; 
 }

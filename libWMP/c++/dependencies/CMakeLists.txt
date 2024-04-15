@@ -3,7 +3,8 @@ include(FetchContent)
 
 
 find_package(HDF5 COMPONENTS C CXX)
-
+find_package(cerf REQUIRED)
+	
 
 if (NOT ${HDF5_FOUND})
 	FetchContent_Declare(
@@ -19,6 +20,7 @@ endif()
 
 target_link_libraries(WMP_CXX
 	${HDF5_LIBRARIES}
+	cerf::cerfcpp
 	)
 
 target_include_directories(WMP_CXX 
