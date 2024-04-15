@@ -14,7 +14,7 @@ int main()
 {
 
 	
-	char* filename = "005010.h5";
+	char* filename = "092235.h5";
 	wmp_read("compiles");
 	H5::H5File file = openhdf(filename);
 
@@ -30,7 +30,7 @@ int main()
 	double E{25.0E-6};
 	double T{0.};
 
-	std::cout << nn.xs(E,T)[0] << " " << nn.xs(E,T)[1] << std::endl;  
+	std::cout << nn.xs(E,T)[0] << " " << nn.xs(E,T)[1] << " " << nn.xs(E,T)[2] << std::endl;  
 
 
 	return 0; 
