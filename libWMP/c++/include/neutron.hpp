@@ -156,7 +156,7 @@ std::array<double,3> Neutron::xs(double &energy, double &temperature)
 	if (temp == 0. || not(broaden_poly[window_i]))
 	{
 		
-		if ( not broaden_poly[window_i]) { std::cout << "BROADEN POLY ==== FALSE\n";}
+	//	if ( not broaden_poly[window_i]) { std::cout << "BROADEN POLY ==== FALSE\n";}
 		pwr = 1./E; 
 		for (int j{}; j <= order; ++j)
 		{
@@ -187,7 +187,7 @@ std::array<double,3> Neutron::xs(double &energy, double &temperature)
 	else
 	{
 		beta = sqrt(kb*temp)/sqrtawr;
-		std::cout << "BETA ===== " << beta << std::endl; 
+	//	std::cout << "BETA ===== " << beta << std::endl; 
 		std::complex<double> Dbm2, Dbm1, Db0, Db1, temp, holo; 
 		Dbm2 = erf(sqrtE/beta)/E; 
 		Dbm1 = 1./sqrtE;
@@ -201,8 +201,8 @@ std::array<double,3> Neutron::xs(double &energy, double &temperature)
 		std::complex<double> imag(0,1); 
 	
 
-		std::cout << "db[2] = " << "\n" << rcrsvDb[2] << std::endl; 
-		std::cout << "db[3] = " << "\n" << rcrsvDb[3] << std::endl; 
+	//	std::cout << "db[2] = " << "\n" << rcrsvDb[2] << std::endl; 
+	//	std::cout << "db[3] = " << "\n" << rcrsvDb[3] << std::endl; 
 		for ( double n = 0.0; n < order - 4; ++n) // don't need this loop if order <= 4; 
 		{
 			temp = ( pow(beta,2)/2.0 * (2.0*n + 1) + E) * rcrsvDb[-2] - (pow(pow(beta,2),2)*n*(n-1)*rcrsvDb[-4] );
@@ -231,7 +231,7 @@ std::array<double,3> Neutron::xs(double &energy, double &temperature)
 	//static std::array<double,3> sigmas{{st,sa,sf}};
 	std::array<double,3> sigmas{{st,sa-sf,sf}};
 
-	std::cout << "c++ returning the following array to fortan\n" << sigmas[0] << "\n" << sigmas[1] << "\n" << sigmas[2] << std::endl; 
+	//std::cout << "c++ returning the following array to fortan\n" << sigmas[0] << "\n" << sigmas[1] << "\n" << sigmas[2] << std::endl; 
 	return sigmas; 
 }
 
