@@ -21,7 +21,7 @@ class Neutron {
        	std::vector<int> broaden_poly; 	
 	std::string name;  
 	int order,fissionable; 
-	double E_min,E_max,spacing;
+	double E_min,E_max,spacing,sqrtawr; 
 
 
 
@@ -53,7 +53,7 @@ class Neutron {
 	double grab_E_min(); // 
 	double grab_E_max(); //
 	double grab_spacing(); 
-
+	double grab_sqrtawr(); 
 	// Current ctor takes the filename as a string, 
 	// To do: copy constructor, more options for constructor (i.e. H5File arg etc.)
 	
@@ -127,6 +127,11 @@ double Neutron::grab_spacing()
 	return this->spacing;
 }
 
+double Neutron::grab_sqrtawr()
+{
+	return this->sqrtawr;
+}
+
 // end grab_xxx definitions; 
 
 
@@ -137,6 +142,8 @@ std::array<double,3> Neutron::xs(double &energy, double &temperature)
 	double E = energy*conv_fact; // E is in eV from here on  
 	if (E > E_max) return {0,0,0}; 
 	double temp = temperature;
+	double beta{}; 
+	double kb = 8.6173303E-5; // boltzmann constant in eV/K, beta has units of sqrt(eV); 
 //	std::cout << "E = " << E << std::endl; 
 //	std::cout << "Temp = " << temp << std::endl; 
 	
@@ -177,6 +184,24 @@ std::array<double,3> Neutron::xs(double &energy, double &temperature)
 	}
 	else
 	{
+		beta = sqrt(kb*temp)/sqrtawr;
+		double Dbm2, Dbm1, Db0, temp; 
+		int n; 
+		Dbm2 = cerf(sqrtE/beta)/energy; 
+		Dbm1 = 1./sqrtE;
+		Db0  = (pow(beta,2)/2 + energy)*Dbm2 + beta/sqrtE/sqrt(M_PI)*exp(-(pow(sqrtE/beta,2))); // M_PI is defined by math
+		
+		Db1  = dbm1*(pow(beta,2)/2.*(3.0)) // added this here because otherwise loop is more complicated
+		std::vector<double> rcrsvDb{Dbm2,Dbm1,Db0,Db1};
+		for ( int i = 2; i < order - 3; ++i)
+			{
+				
+				temp = ( pow(beta,2)/2.0 * (2.0*n + 1) + energy) * rcrsvDb[-2] - (pow(pow(beta,2),2)*n*(n-1)
+	
+
+			}
+
+
 		std::cout << "ERROR: DOPPLER BROADENED CROSS SECTIONS ARE A WORK IN PROGRESS\n SET TEMPERATURES TO 0K AND TRY AGAIN" << std::endl;
 	}
 

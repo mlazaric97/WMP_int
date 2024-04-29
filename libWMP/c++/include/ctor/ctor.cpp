@@ -21,6 +21,8 @@ Neutron(std::string filename, int verbose = 0)
 	
 	this->E_min = get_E_bounds(isogroup,"E_min");
        	this->E_max = get_E_bounds(isogroup,"E_max"); 	
+	this->sqrtawr = get_sqrtawr(isogroup);
+
 	this->data = get_data(isogroup); 
 
 	if (this->data.size() != 0)

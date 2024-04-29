@@ -69,6 +69,29 @@ H5::Group open_isogroup(const std::string GROUPNAME,H5::H5File &file)
 	return isog; 
 }
 
+
+double get_sqrtawr(H5::Group &isogroup)
+{
+	std::cout << "Loading Dataset: 'sqrtAWR' " << std::endl; 
+	H5::Exception::dontPrint();
+	H5::DataSet sqrtawr;
+	std::string name = "sqrtAWR"; 
+	
+	try { 
+		sqrtawr = isogroup.openDataSet(name.c_str());
+	}	catch(const H5::DataSetIException& error) { 
+		std::cout << "ERROR OPENING DATASET 'sqrtAWR'" << std::endl; 
+		error.printErrorStack(); 
+		std::abort(); 
+	}
+	std::cout << "Successfully opened Dataset: 'sqrtAWR'" << std::endl; 
+
+	double buf[1]; 
+	sqrtawr.read(buf, H5::PredType::NATIVE_DOUBLE);
+	std::cout << "Successfully loaded data from dataset 'sqrtAWR' " << std::endl; 
+	return buf[0]; 
+}
+
 double get_E_bounds(H5::Group &isogroup, std::string maxormin)
 {
 	std::cout << "Loading Dataset: '" << maxormin << "' \n"; 
