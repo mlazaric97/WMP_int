@@ -158,7 +158,7 @@ std::array<double,3> Neutron::xs(double &energy, double &temperature)
 		
 		if ( not broaden_poly[window_i]) { std::cout << "BROADEN POLY ==== FALSE\n";}
 		pwr = 1./E; 
-		for (int j{}; j <= order; ++j)
+		for (int j{}; j <= order+1; ++j)
 		{
 			ss += curvefit[window_i][j][0]*pwr; 
 			sa += curvefit[window_i][j][1]*pwr; 
