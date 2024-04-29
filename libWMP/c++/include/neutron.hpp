@@ -155,6 +155,8 @@ std::array<double,3> Neutron::xs(double &energy, double &temperature)
 	double pwr; 
 	if (temp == 0. || not(broaden_poly[window_i]))
 	{
+		
+		if ( not broaden_poly[window_i]) { std::cout << "BROADEN POLY ==== FALSE\n";}
 		pwr = 1./E; 
 		for (int j{}; j <= order; ++j)
 		{
@@ -185,23 +187,28 @@ std::array<double,3> Neutron::xs(double &energy, double &temperature)
 	else
 	{
 		beta = sqrt(kb*temp)/sqrtawr;
+		std::cout << "BETA ===== " << beta << std::endl; 
 		std::complex<double> Dbm2, Dbm1, Db0, Db1, temp, holo; 
-		Dbm2 = cerf(sqrtE/beta)/energy; 
+		Dbm2 = erf(sqrtE/beta)/E; 
 		Dbm1 = 1./sqrtE;
 		
 
 		double sqrtpi = sqrt(M_PI); 
-		Db0  = (pow(beta,2)/2 + energy)*Dbm2 + beta/sqrtE/sqrtpi*exp(-(pow(sqrtE/beta,2))); // M_PI is defined by math
+		Db0  = (pow(beta,2)/2 + E)*Dbm2 + beta/sqrtE/sqrtpi*exp(-(pow(sqrtE/beta,2))); // M_PI is defined by math
 		
 		Db1  = Dbm1*(pow(beta,2)/2.*(3.0)); // added this here because otherwise loop is more complicated
 		std::vector<std::complex<double>> rcrsvDb{Dbm2,Dbm1,Db0,Db1};
 		std::complex<double> imag(0,1); 
+	
+
+		std::cout << "db[2] = " << "\n" << rcrsvDb[2] << std::endl; 
+		std::cout << "db[3] = " << "\n" << rcrsvDb[3] << std::endl; 
 		for ( double n = 0.0; n < order - 4; ++n) // don't need this loop if order <= 4; 
 		{
-			temp = ( pow(beta,2)/2.0 * (2.0*n + 1) + energy) * rcrsvDb[-2] - (pow(pow(beta,2),2)*n*(n-1)*rcrsvDb[-4] );
+			temp = ( pow(beta,2)/2.0 * (2.0*n + 1) + E) * rcrsvDb[-2] - (pow(pow(beta,2),2)*n*(n-1)*rcrsvDb[-4] );
 			rcrsvDb.push_back(temp);	
 		}
-		for (int i{}; i < order; ++i) // holomorphic part
+		for (int i{}; i < order+1; ++i) // holomorphic part
 		{
 			ss += (curvefit[window_i][i][0]*rcrsvDb[i]).real();
 			sa += (curvefit[window_i][i][1]*rcrsvDb[i]).real();
@@ -211,7 +218,7 @@ std::array<double,3> Neutron::xs(double &energy, double &temperature)
 	
 		for (int i = startw; i < endw; ++i )
 		{
-			temp = 1.0/energy*sqrtpi*w_of_z((sqrtE - data[window_i][0])/beta)/imag/beta;
+			temp = 1.0/E*sqrtpi*w_of_z((sqrtE - data[window_i][0])/beta)/imag/beta;
 			ss += (data[i][1]*temp).real();
 			sa += (data[i][2]*temp).real();
 			if (fissionable) { sf += (data[i][3]*temp).real(); }
