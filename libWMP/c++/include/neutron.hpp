@@ -158,7 +158,7 @@ std::array<double,3> Neutron::xs(double &energy, double &temperature)
 		
 		if ( not broaden_poly[window_i]) { std::cout << "BROADEN POLY ==== FALSE\n";}
 		pwr = 1./E; 
-		for (int j{}; j <= order+1; ++j)
+		for (int j{}; j <= order; ++j)
 		{
 			ss += curvefit[window_i][j][0]*pwr; 
 			sa += curvefit[window_i][j][1]*pwr; 
@@ -208,7 +208,7 @@ std::array<double,3> Neutron::xs(double &energy, double &temperature)
 			temp = ( pow(beta,2)/2.0 * (2.0*n + 1) + E) * rcrsvDb[-2] - (pow(pow(beta,2),2)*n*(n-1)*rcrsvDb[-4] );
 			rcrsvDb.push_back(temp);	
 		}
-		for (int i{}; i < order+1; ++i) // holomorphic part
+		for (int i{}; i <= order; ++i) // holomorphic part
 		{
 			ss += (curvefit[window_i][i][0]*rcrsvDb[i]).real();
 			sa += (curvefit[window_i][i][1]*rcrsvDb[i]).real();
