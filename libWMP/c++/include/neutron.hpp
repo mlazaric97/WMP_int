@@ -185,31 +185,46 @@ std::array<double,3> Neutron::xs(double &energy, double &temperature)
 	else
 	{
 		beta = sqrt(kb*temp)/sqrtawr;
-		double Dbm2, Dbm1, Db0, temp; 
-		int n; 
+		std::complex<double> Dbm2, Dbm1, Db0, Db1, temp, holo; 
 		Dbm2 = cerf(sqrtE/beta)/energy; 
 		Dbm1 = 1./sqrtE;
-		Db0  = (pow(beta,2)/2 + energy)*Dbm2 + beta/sqrtE/sqrt(M_PI)*exp(-(pow(sqrtE/beta,2))); // M_PI is defined by math
 		
-		Db1  = dbm1*(pow(beta,2)/2.*(3.0)) // added this here because otherwise loop is more complicated
-		std::vector<double> rcrsvDb{Dbm2,Dbm1,Db0,Db1};
-		for ( int i = 2; i < order - 3; ++i)
-			{
-				
-				temp = ( pow(beta,2)/2.0 * (2.0*n + 1) + energy) * rcrsvDb[-2] - (pow(pow(beta,2),2)*n*(n-1)
+
+		double sqrtpi = sqrt(M_PI); 
+		Db0  = (pow(beta,2)/2 + energy)*Dbm2 + beta/sqrtE/sqrtpi*exp(-(pow(sqrtE/beta,2))); // M_PI is defined by math
+		
+		Db1  = Dbm1*(pow(beta,2)/2.*(3.0)); // added this here because otherwise loop is more complicated
+		std::vector<std::complex<double>> rcrsvDb{Dbm2,Dbm1,Db0,Db1};
+		std::complex<double> imag(0,1); 
+		for ( double n = 0.0; n < order - 4; ++n) // don't need this loop if order <= 4; 
+		{
+			temp = ( pow(beta,2)/2.0 * (2.0*n + 1) + energy) * rcrsvDb[-2] - (pow(pow(beta,2),2)*n*(n-1)*rcrsvDb[-4] );
+			rcrsvDb.push_back(temp);	
+		}
+		for (int i{}; i < order; ++i) // holomorphic part
+		{
+			ss += (curvefit[window_i][i][0]*rcrsvDb[i]).real();
+			sa += (curvefit[window_i][i][1]*rcrsvDb[i]).real();
+			if (fissionable) { sf += (curvefit[window_i][i][2]*rcrsvDb[i]).real(); }
+		}
+		temp = 0.0;
 	
+		for (int i = startw; i < endw; ++i )
+		{
+			temp = 1.0/energy*sqrtpi*w_of_z((sqrtE - data[window_i][0])/beta)/imag/beta;
+			ss += (data[i][1]*temp).real();
+			sa += (data[i][2]*temp).real();
+			if (fissionable) { sf += (data[i][3]*temp).real(); }
+				
+		}	
 
-			}
-
-
-		std::cout << "ERROR: DOPPLER BROADENED CROSS SECTIONS ARE A WORK IN PROGRESS\n SET TEMPERATURES TO 0K AND TRY AGAIN" << std::endl;
 	}
 
 	st = ss + sa ;
 	//static std::array<double,3> sigmas{{st,sa,sf}};
 	std::array<double,3> sigmas{{st,sa-sf,sf}};
 
-//	std::cout << "c++ returning the following array to fortan\n" << sigmas[0] << "\n" << sigmas[1] << "\n" << sigmas[2] << std::endl; 
+	std::cout << "c++ returning the following array to fortan\n" << sigmas[0] << "\n" << sigmas[1] << "\n" << sigmas[2] << std::endl; 
 	return sigmas; 
 }
 
